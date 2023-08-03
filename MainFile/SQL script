@@ -1,0 +1,29 @@
+CREATE TABLE dbo.ProviderOdds 
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    ProviderOddsID INT NOT NULL UNIQUE,
+    OddsName varchar(50),
+    OddsRate decimal(8,5),
+    Status varchar(20),
+	  ProviderEventID INT
+);
+
+CREATE TABLE dbo.ProviderEvent 
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    ProviderEventID INT NOT NULL UNIQUE,
+    EventName varchar(50),
+    EventDate datetime
+);
+
+ALTER TABLE dbo.ProviderOdds
+ADD CONSTRAINT FK_EventOdds
+FOREIGN KEY (ProviderEventID) REFERENCES dbo.ProviderEvent(ProviderEventID); 
+
+CREATE INDEX IDX_odds_eventid
+ON ProviderOdds (ProviderEventID); 
+
+CREATE VIEW ProviderEventsOdds AS
+SELECT p.ProviderEventID, p.EventName, p.EventDate, o.ProviderOddsID, o.OddsName, o.OddsRate, o.Status 
+FROM ProviderEvent p
+LEFT JOIN  ProviderOdds o ON o.ProviderEventID = p.ProviderEventID 
