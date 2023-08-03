@@ -74,7 +74,7 @@ namespace CodiumTask
 
                             if (oddsByEventFromDb.Where(oe => oe.ProviderOddsID == oddsInEvent.ProviderOddsID).FirstOrDefault().OddsRate != oddsInEvent.OddsRate)
                             {
-                                db.UpdateOddsStatus(oddsInEvent);
+                                db.UpdateOddsRate(oddsInEvent);
                             }
                         }
                     }
